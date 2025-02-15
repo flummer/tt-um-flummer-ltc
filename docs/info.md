@@ -9,7 +9,7 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Multiple counters to maintain time and framecount, with serial output of the LTC (80 bit frames)
+Multiple counters to maintain time and framecount, with serial output of the LTC (80 bit frames, biphase mark code)
 
 ## How to test
 
@@ -30,4 +30,4 @@ Hours, minutes and seconds can be incremented using ui[5], ui[6] and ui[7] respe
 
 This should work with the audio PMOD connected to the bidirectional port, to give levels useable for audio gear.
 
-If testing with logic analyzer or similar, uo[7] can be directly connected. The signal is a digital signal.
+If testing with logic analyzer or similar, uio[7] can be directly connected. The signal is a digital signal.
