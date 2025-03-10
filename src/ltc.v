@@ -9,9 +9,6 @@ module ltc (
     input wire clk, 
     input wire reset_n,
     input wire [1:0] framerate,
-    input wire inc_hrs,
-    input wire inc_min,
-    input wire inc_sec,
     output reg timecode
 	);
 
@@ -26,10 +23,10 @@ module ltc (
     reg [3:0] hrs_u;
     reg [1:0] hrs_d;
     reg [23:0] frm_counter;
-    reg [15:0] btn_counter;
     reg [11:0] bit_counter;
-
     reg [79:0] output_buffer;
+
+	reg bit_clk;
 
 	always @(posedge sys_clk) begin
         if(reset) begin
@@ -42,10 +39,8 @@ module ltc (
             hrs_u <= 0;
             hrs_d <= 0;
             frm_counter <= 0;
-            btn_counter <= 0;
             bit_counter <= 0;
             bit_clk <= 1'b0;
-            but_clk_en <= 1'b0;
             output_buffer <= 0;
             timecode <= 0;
         end else begin
@@ -154,46 +149,11 @@ module ltc (
                     output_buffer <= (output_buffer<<1);
                 end
             end
-
-            // button pulse enable counter
-            // 12MHz: 100 Hz/10ms: 60000 for a half period
-            btn_counter <= btn_counter + 1;
-            if(btn_counter + 1 == 60_000) begin
-                but_clk_en <= ~but_clk_en;
-                btn_counter <= 0;
-            end
-
-            // increment buttons
-            if(inc_sec_pulse)
-                sec_u <= sec_u + 1;
-            if(inc_min_pulse)
-                min_u <= min_u + 1;
-            if(inc_hrs_pulse)
-                hrs_u <= hrs_u + 1;
         end
     end
 
-    // button handling
-	wire inc_sec_pulse, inc_min_pulse, inc_hrs_pulse;
-
-    // want button_clk_en to be about 10ms
-    reg but_clk_en;
-
-    localparam MAX_BUT_RATE = 16;
-    localparam DEC_COUNT = 1;
-    localparam MIN_COUNT = 2;
-
-    button_pulse #(.MIN_COUNT(MIN_COUNT), .DEC_COUNT(DEC_COUNT), .MAX_COUNT(MAX_BUT_RATE)) 
-        pulse_sec (.clk(sys_clk), .clk_en(but_clk_en), .button(inc_sec), .pulse(inc_sec_pulse), .reset(reset));
-    button_pulse #(.MIN_COUNT(MIN_COUNT), .DEC_COUNT(DEC_COUNT), .MAX_COUNT(MAX_BUT_RATE)) 
-        pulse_min (.clk(sys_clk), .clk_en(but_clk_en), .button(inc_min), .pulse(inc_min_pulse), .reset(reset));
-    button_pulse #(.MIN_COUNT(MIN_COUNT), .DEC_COUNT(DEC_COUNT), .MAX_COUNT(MAX_BUT_RATE)) 
-        pulse_hrs (.clk(sys_clk), .clk_en(but_clk_en), .button(inc_hrs), .pulse(inc_hrs_pulse), .reset(reset));
-
 	wire sys_clk;
     assign sys_clk = clk;
-
-	reg bit_clk;
 
 endmodule
 
