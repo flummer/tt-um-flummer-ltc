@@ -144,6 +144,15 @@ module ltc (
             bit_counter <= bit_counter + 1;
             if((framerate == 2'b00 && bit_counter + 1 == 3_125) || (framerate == 2'b01 && bit_counter + 1 == 3_000) || (framerate == 2'b11 && bit_counter + 1 == 2_500)) begin
                 bit_clk <= ~bit_clk;
+
+                if(bit_clk) begin
+                    timecode <= ~timecode; // every bit needs a transition on the output
+                end
+                if(~bit_clk) begin
+                    if(output_buffer[79] == 1'b1)
+                        timecode <= ~timecode; // only bits that are set needs an extra transition
+                    output_buffer <= (output_buffer<<1);
+                end
             end
 
             // button pulse enable counter
@@ -162,18 +171,6 @@ module ltc (
             if(inc_hrs_pulse)
                 hrs_u <= hrs_u + 1;
         end
-    end
-
-    // every bit needs a transition on the output
-	always @(posedge bit_clk) begin
-        timecode <= ~timecode;
-    end
-
-    // only bits that are set needs an extra transition
-	always @(negedge bit_clk) begin
-        if(output_buffer[79] == 1'b1)
-            timecode <= ~timecode;
-        output_buffer <= (output_buffer<<1);
     end
 
     // button handling

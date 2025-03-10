@@ -26,7 +26,7 @@ module tt_um_flummer_ltc (
     assign uio_out[7] = timecode;
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena};
+    wire _unused = &{ena, uio_in, ui_in[4,1:0]};
 
     ltc ltc (
     .clk        (clk), 
