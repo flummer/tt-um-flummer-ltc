@@ -33,9 +33,9 @@ module tt_um_flummer_ltc (
     .reset_n    (rst_n),
     // inputs
     .framerate  (ui_in[3:2]),
-    .adj_hrs    (ui_in[5]),
-    .adj_min    (ui_in[6]),
-    .adj_sec    (ui_in[7]),
+    .inc_hrs    (ui_in[5]),
+    .inc_min    (ui_in[6]),
+    .inc_sec    (ui_in[7]),
     // outputs
     .timecode      (timecode)
     );

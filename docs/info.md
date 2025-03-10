@@ -13,7 +13,7 @@ Multiple counters to maintain time and framecount, with serial output of the LTC
 
 ## How to test
 
-The project should have 50 MHz clock signal applied and after reset, will start out with a 00:00:00:00 timecode at starts to count.
+The project should have 12 MHz clock signal applied and after reset, will start out with a 00:00:00:00 timecode and starts to count.
 
 Framerate is controlled by the ui[2] and ui[3]
 
@@ -21,8 +21,8 @@ Framerate is controlled by the ui[2] and ui[3]
 | ----- | ----- | --------- |
 | 0     | 0     | 24        |
 | 0     | 1     | 25        |
-| 1     | 0     | 30        |
-| 1     | 1     | 29.97     |
+| 1     | 0     | 29.97     |
+| 1     | 1     | 30        |
 
 Hours, minutes and seconds can be incremented using ui[5], ui[6] and ui[7] respectively.
 
