@@ -17,14 +17,12 @@ The project should have 12 MHz clock signal applied and after reset, will start 
 
 Framerate is controlled by the ui[2] and ui[3]
 
-| ui[3] | ui[2] | Framerate |
-| ----- | ----- | --------- |
-| 0     | 0     | 24        |
-| 0     | 1     | 25        |
-| 1     | 0     | 29.97     |
-| 1     | 1     | 30        |
-
-Hours, minutes and seconds can be incremented using ui[5], ui[6] and ui[7] respectively.
+| ui[3] | ui[2] | Framerate | Comment          |
+| ----- | ----- | --------- | ---------------- |
+| 0     | 0     | 24        |                  |
+| 0     | 1     | 25        |                  |
+| 1     | 0     | 29.97     | Not implemented  |
+| 1     | 1     | 30        |                  |
 
 ## External hardware
 

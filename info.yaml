@@ -28,9 +28,9 @@ pinout:
   ui[2]: "FRAMERATE_0"
   ui[3]: "FRAMERATE_1"
   ui[4]: ""
-  ui[5]: "HOUR_INC"
-  ui[6]: "MINUTE_INC"
-  ui[7]: "SECOND_INC"
+  ui[5]: ""
+  ui[6]: ""
+  ui[7]: ""
 
   # Outputs
   uo[0]: ""
