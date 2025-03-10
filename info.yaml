@@ -2,10 +2,10 @@
 project:
   title:        "Linear Timecode (LTC) generator"      # Project title
   author:       "Thomas Flummer"      # Your name
-  discord:      "thomasflummer"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  discord:      "thomasflummer#9447"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Timecode generator for audio video syncronization"      # One line description of what your project does
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     50000000       # Clock frequency in Hz (or 0 if not applicable)
+  clock_hz:     12000000       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
@@ -17,7 +17,9 @@ project:
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "project.v"
+    - "tt_um_flummer_ltc.v"
+    - "ltc.v"
+    - "button_pulse.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
