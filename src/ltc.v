@@ -90,7 +90,7 @@ module ltc (
                 frm_u <= frm_u + 1;
                 frm_counter <= 0;
 
-                output_buffer[79] <= {frm_u[0],
+                output_buffer <= {frm_u[0],
                 frm_u[1],
                 frm_u[2],
                 frm_u[3],
