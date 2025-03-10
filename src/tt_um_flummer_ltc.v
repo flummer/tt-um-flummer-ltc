@@ -22,11 +22,12 @@ module tt_um_flummer_ltc (
     assign uio_out[7] = timecode;
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena};
+    wire _unused = &{ena, uio_in[7]};
 
     // just simple logic to use IO and have something very simple
     assign uo_out[0] = ui_in[7] & ui_in[6] & ui_in[5] & ui_in[4] & ui_in[1] & ui_in[0];
     assign uo_out[7:1] = uio_in[6:0];
+    assign uio_out[6:0] = 7'b0;
 
     ltc ltc (
     .clk        (clk), 
