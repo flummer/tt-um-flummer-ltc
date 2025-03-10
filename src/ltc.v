@@ -12,7 +12,7 @@ module ltc (
     input wire inc_hrs,
     input wire inc_min,
     input wire inc_sec,
-    output wire timecode
+    output reg timecode
 	);
 
 	wire reset = !reset_n;
@@ -180,7 +180,7 @@ module ltc (
 	wire inc_sec_pulse, inc_min_pulse, inc_hrs_pulse;
 
     // want button_clk_en to be about 10ms
-    wire but_clk_en;
+    reg but_clk_en;
 
     localparam MAX_BUT_RATE = 16;
     localparam DEC_COUNT = 1;
@@ -196,7 +196,7 @@ module ltc (
 	wire sys_clk;
     assign sys_clk = clk;
 
-	wire bit_clk;
+	reg bit_clk;
 
 endmodule
 
