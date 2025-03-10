@@ -90,47 +90,47 @@ module ltc (
                 frm_u <= frm_u + 1;
                 frm_counter <= 0;
 
-                output_buffer[79] <= frm_u[0];
-                output_buffer[78] <= frm_u[1];
-                output_buffer[77] <= frm_u[2];
-                output_buffer[76] <= frm_u[3];
-                output_buffer[75:72] <= 4'b0; // user bits field 1
-                output_buffer[71] <= frm_d[0];
-                output_buffer[70] <= frm_d[1];
-                output_buffer[69] <= 1'b0; // drop frame flag, 1 = dropframe, 0 = non drop frame
-                output_buffer[68] <= 1'b0; // color frame flag
-                output_buffer[67:64] <= 4'b0; // user bits field 2
-                output_buffer[63] <= sec_u[0];
-                output_buffer[62] <= sec_u[1];
-                output_buffer[61] <= sec_u[2];
-                output_buffer[60] <= sec_u[3];
-                output_buffer[59:56] <= 4'b0; // user bits field 3
-                output_buffer[55] <= sec_d[0];
-                output_buffer[54] <= sec_d[1];
-                output_buffer[53] <= sec_d[2];
-                output_buffer[52] <= 1'b0; // flag (bit 27)
-                output_buffer[51:48] <= 4'b0; // user bits field 4
-                output_buffer[47] <= min_u[0];
-                output_buffer[46] <= min_u[1];
-                output_buffer[45] <= min_u[2];
-                output_buffer[44] <= min_u[3];
-                output_buffer[43:40] <= 4'b0; // user bits field 5
-                output_buffer[39] <= min_d[0];
-                output_buffer[38] <= min_d[1];
-                output_buffer[37] <= min_d[2];
-                output_buffer[36] <= 1'b0; // flag (bit 43)
-                output_buffer[35:32] <= 4'b0; // user bits field 6
-                output_buffer[31] <= hrs_u[0];
-                output_buffer[30] <= hrs_u[1];
-                output_buffer[29] <= hrs_u[2];
-                output_buffer[28] <= hrs_u[3];
-                output_buffer[27:24] <= 4'b0; // user bits field 7
-                output_buffer[23] <= hrs_d[0];
-                output_buffer[22] <= hrs_d[1];
-                output_buffer[21] <= 1'b0; // clock flag
-                output_buffer[20] <= 1'b0; // flag (bit 59)
-                output_buffer[19:16]  <= 4'b0; // user bits field 8
-                output_buffer[15:0] <= 16'b0011111111111101; // sync word, fixed pattern
+                output_buffer[79] <= {frm_u[0],
+                frm_u[1],
+                frm_u[2],
+                frm_u[3],
+                4'b0, // user bits field 1
+                frm_d[0],
+                frm_d[1],
+                1'b0, // drop frame flag, 1 = dropframe, 0 = non drop frame
+                1'b0, // color frame flag
+                4'b0, // user bits field 2
+                sec_u[0],
+                sec_u[1],
+                sec_u[2],
+                sec_u[3],
+                4'b0, // user bits field 3
+                sec_d[0],
+                sec_d[1],
+                sec_d[2],
+                1'b0, // flag (bit 27)
+                4'b0, // user bits field 4
+                min_u[0],
+                min_u[1],
+                min_u[2],
+                min_u[3],
+                4'b0, // user bits field 5
+                min_d[0],
+                min_d[1],
+                min_d[2],
+                1'b0, // flag (bit 43)
+                4'b0, // user bits field 6
+                hrs_u[0],
+                hrs_u[1],
+                hrs_u[2],
+                hrs_u[3],
+                4'b0, // user bits field 7
+                hrs_d[0],
+                hrs_d[1],
+                1'b0, // clock flag
+                1'b0, // flag (bit 59)
+                4'b0, // user bits field 8
+                16'b0011111111111101}; // sync word, fixed pattern
 
                 if(framerate == 2'b00 || framerate == 2'b11) begin // 24 or 30 fps
                     output_buffer[52] <= ~^output_buffer[79:16];
