@@ -53,7 +53,7 @@ module ltc (
                 frm_u <= 0;
                 frm_d <= frm_d + 1;
             end
-            if((framerate == 2'b00 && frm_d == 2 && frm_u == 4) || (framerate == 2'b01 && frm_d == 2 && frm_u == 5) || (framerate == 2'b11 && frm_d == 3 && frm_u == 0) || ) begin
+            if((framerate == 2'b00 && frm_d == 2 && frm_u == 4) || (framerate == 2'b01 && frm_d == 2 && frm_u == 5) || (framerate == 2'b11 && frm_d == 3 && frm_u == 0)) begin
                 frm_u <= 0;
                 frm_d <= 0;
                 sec_u <= sec_u + 1;
