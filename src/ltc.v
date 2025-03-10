@@ -132,10 +132,10 @@ module ltc (
                 output_buffer[19:16]  <= 4'b0; // user bits field 8
                 output_buffer[15:0] <= 16'b0011111111111101; // sync word, fixed pattern
 
-                if(framerate == 2'b00 || framerate == 2'b11) begin// 24 or 30 fps
+                if(framerate == 2'b00 || framerate == 2'b11) begin // 24 or 30 fps
                     output_buffer[52] = ~^output_buffer[79:16];
                 end
-                if(framerate == 2'b01) begin// 25 fps
+                if(framerate == 2'b01) begin // 25 fps
                     output_buffer[20] = ~^output_buffer[79:16];
                 end
             end
@@ -173,7 +173,7 @@ module ltc (
 	always @(negedge bit_clk) begin
         if(output_buffer[79] == 1'b1)
             timecode <= ~timecode;
-        output_buffer <= (output_buffer<<1)
+        output_buffer <= (output_buffer<<1);
     end
 
     // button handling
