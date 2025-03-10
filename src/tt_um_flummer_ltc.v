@@ -17,7 +17,7 @@ module tt_um_flummer_ltc (
     );
 
     // All output pins must be assigned. If not used, assign to 0.
-    assign uo_out[7:0] = 8'b0;
+    assign uo_out[7:2] = 6'b0;
 
     assign uio_out[6:0] = 7'b0;
     assign uio_oe  = 8'b10000000;
@@ -27,6 +27,10 @@ module tt_um_flummer_ltc (
 
     // List all unused inputs to prevent warnings
     wire _unused = &{ena};
+
+    // just simple logic to use IO and have something very simple
+    assign uo_out[0] = ui_in[4];
+    assign uo_out[1] = ui_in[1] & ui_in[0];
 
     ltc ltc (
     .clk        (clk), 
