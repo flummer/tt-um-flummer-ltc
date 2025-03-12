@@ -36,7 +36,7 @@ module ltc (
             sec_d <= 0;
             min_u <= 0;
             min_d <= 0;
-            hrs_u <= 0;
+            hrs_u <= 1;
             hrs_d <= 0;
             frm_counter <= 0;
             bit_counter <= 0;
@@ -84,7 +84,9 @@ module ltc (
             if((framerate == 2'b00 && frm_counter + 1 == 500_000) || (framerate == 2'b01 && frm_counter + 1 == 480_000) || (framerate == 2'b11 && frm_counter + 1 == 400_000)) begin
                 frm_u <= frm_u + 1;
                 frm_counter <= 0;
+            end
 
+            if(frm_counter == 1) begin
                 output_buffer <= {frm_u[0],
                 frm_u[1],
                 frm_u[2],
@@ -126,7 +128,9 @@ module ltc (
                 1'b0, // flag (bit 59)
                 4'b0, // user bits field 8
                 16'b0011111111111101}; // sync word, fixed pattern
+            end
 
+            if(frm_counter == 2) begin
                 if(framerate == 2'b00 || framerate == 2'b11) begin // 24 or 30 fps
                     output_buffer[52] <= ~^output_buffer[79:16];
                 end
@@ -138,7 +142,8 @@ module ltc (
             // 80 bits per frame
             bit_counter <= bit_counter + 1;
             if((framerate == 2'b00 && bit_counter + 1 == 3_125) || (framerate == 2'b01 && bit_counter + 1 == 3_000) || (framerate == 2'b11 && bit_counter + 1 == 2_500)) begin
-                bit_clk <= ~bit_clk;
+                bit_clk = ~bit_clk;
+                bit_counter <= 0;
 
                 if(bit_clk) begin
                     timecode <= ~timecode; // every bit needs a transition on the output
