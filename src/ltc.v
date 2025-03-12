@@ -142,9 +142,11 @@ module ltc (
             // 80 bits per frame
             bit_counter <= bit_counter + 1;
             if((framerate == 2'b00 && bit_counter + 1 == 3_125) || (framerate == 2'b01 && bit_counter + 1 == 3_000) || (framerate == 2'b11 && bit_counter + 1 == 2_500)) begin
-                bit_clk = ~bit_clk;
+                bit_clk <= ~bit_clk;
                 bit_counter <= 0;
+            end
 
+            if(bit_counter == 0) begin
                 if(bit_clk) begin
                     timecode <= ~timecode; // every bit needs a transition on the output
                 end
