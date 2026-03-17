@@ -72,9 +72,9 @@ wire clearStartStopDet;
 //wire sdaOut;
 //wire sdaIn;
 wire [7:0] regAddr;
-wire [7:0] dataToRegIF;
-wire writeEn;
-wire [7:0] dataFromRegIF;
+//wire [7:0] dataToRegIF; // seems to be unused
+//wire writeEn; // seems to be unused
+//wire [7:0] dataFromRegIF; // seems to be unused
 reg [1:0] rstPipe;
 wire rstSyncToClk;
 reg startEdgeDet;
