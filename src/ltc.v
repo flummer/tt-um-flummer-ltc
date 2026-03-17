@@ -134,7 +134,7 @@ module ltc (
                 userbits[27:24], // user bits field 7
                 hrs_d[0],
                 hrs_d[1],
-                bfg[1], // clock flag
+                bgf[1], // clock flag
                 (framerate == 2'b01) ? 1'b0 : bgf[2], // flag (bit 59)
                 userbits[31:28], // user bits field 8
                 16'b0011111111111101}; // sync word, fixed pattern
