@@ -6,10 +6,10 @@ SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = i2c_if/i2c_if_no_bidir.v \
-i2c_if/i2cSlave_define.v \
-i2c_if/serialInterface.v \
+PROJECT_SOURCES = i2c_if/i2cSlave_define.v \
+i2c_if/i2c_if_no_bidir.v \
 i2c_if/timescale.v \
+i2c_if/serialInterface.v \
 rb_ltc/rb_ltc.v \
 ltc.v \
 tt_um_flummer_ltc.v
