@@ -81,11 +81,11 @@ module tt_um_flummer_ltc (
     // Bidirectional input / output 
 
     // I2C to circuit - client and input is only input (No strech mode imp.)
-    assign uio_in[0]  = i2c_scl;
+    assign i2c_scl    = uio_in[0];
     assign uio_oe[0]  = 1'b0;
     assign uio_out[0] = 1'b0; 
 
-    assign uio_in[1]  = i2c_sdai;
+    assign i2c_sdai   = uio_in[1];
     assign uio_oe[1]  = (i2c_sdao == 1'b0) ? 1'b1 : 1'b0;
     assign uio_out[1] = i2c_sdao; 
 

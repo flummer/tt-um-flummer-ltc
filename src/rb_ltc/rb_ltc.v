@@ -25,12 +25,12 @@ module rb_ltc (
 	inout wire [23:0] time_cfg;
 	inout wire [39:0] ltc_cfg;
 	reg [7:0] reg__ltc_cfg__misc;
-	reg [4:0] reg__time_cfg__sec_u;
-	reg [4:0] reg__time_cfg__sec_d;
-	reg [4:0] reg__time_cfg__min_u;
-	reg [4:0] reg__time_cfg__min_d;
-	reg [4:0] reg__time_cfg__hrs_u;
-	reg [4:0] reg__time_cfg__hrs_d;
+	reg [3:0] reg__time_cfg__sec_u;
+	reg [3:0] reg__time_cfg__sec_d;
+	reg [3:0] reg__time_cfg__min_u;
+	reg [3:0] reg__time_cfg__min_d;
+	reg [3:0] reg__time_cfg__hrs_u;
+	reg [3:0] reg__time_cfg__hrs_d;
 	reg [7:0] reg__ltc_cfg__user21;
 	reg [7:0] reg__ltc_cfg__user43;
 	reg [7:0] reg__ltc_cfg__user65;
