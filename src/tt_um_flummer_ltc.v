@@ -48,7 +48,7 @@ module tt_um_flummer_ltc (
         .data_write_to_reg(rb_data_write_to_reg),
         .data_read_from_reg(rb_data_read_from_reg),
         .reg_en         (rb_reg_en),
-        .write_en       (rb_write_en),
+        .write_en       (rb_write_en)
     );
 
     rb_ltc rb_ltc_inst(
