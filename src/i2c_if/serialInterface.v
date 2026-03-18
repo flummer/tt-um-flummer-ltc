@@ -52,8 +52,8 @@
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 //
-`include "timescale.v"
-`include "i2cSlave_define.v"
+//`include "timescale.v" // use ordered source lists instead
+//`include "i2cSlave_define.v" // use ordered source lists instead
 
 module serialInterface (
 clearStartStopDet, 

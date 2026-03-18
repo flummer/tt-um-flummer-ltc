@@ -42,7 +42,7 @@
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 //
-`include "i2cSlave_define.v"
+//`include "i2cSlave_define.v" // use ordered source lists instead
  
 module i2c_if (
   input clk,

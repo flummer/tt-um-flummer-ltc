@@ -17,10 +17,10 @@ project:
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "i2c_if/i2c_if_no_bidir.v"
     - "i2c_if/i2cSlave_define.v"
-    - "i2c_if/serialInterface.v"
+    - "i2c_if/i2c_if_no_bidir.v"
     - "i2c_if/timescale.v"
+    - "i2c_if/serialInterface.v"
     - "rb_ltc/rb_ltc.v"
     - "ltc.v"
     - "tt_um_flummer_ltc.v"
@@ -39,13 +39,13 @@ pinout:
   ui[7]: "BGF_1"
 
   # Outputs
-  uo[0]: "FRAMERATE_DEBUG_7DSEG"
-  uo[1]: "FRAMERATE_DEBUG_7DSEG"
-  uo[2]: "FRAMERATE_DEBUG_7DSEG"
-  uo[3]: "FRAMERATE_DEBUG_7DSEG"
-  uo[4]: "FRAMERATE_DEBUG_7DSEG"
-  uo[5]: "FRAMERATE_DEBUG_7DSEG"
-  uo[6]: "FRAMERATE_DEBUG_7DSEG"
+  uo[0]: "FRAMERATE_DEBUG_7SEG"
+  uo[1]: "FRAMERATE_DEBUG_7SEG"
+  uo[2]: "FRAMERATE_DEBUG_7SEG"
+  uo[3]: "FRAMERATE_DEBUG_7SEG"
+  uo[4]: "FRAMERATE_DEBUG_7SEG"
+  uo[5]: "FRAMERATE_DEBUG_7SEG"
+  uo[6]: "FRAMERATE_DEBUG_7SEG"
   uo[7]: "REG_CONF_ACTIVE"
 
   # Bidirectional pins

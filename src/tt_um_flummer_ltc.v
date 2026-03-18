@@ -28,7 +28,7 @@ module tt_um_flummer_ltc (
     wire [7:0] rb_data_read_from_reg;
     wire rb_reg_en;
     wire rb_write_en;
-    wire [1:0] rb_streamSt_mon;
+    wire [1:0] streamSt_mon;
 
     wire use_reg_conf;
     wire [1:0] framerate;
@@ -50,7 +50,7 @@ module tt_um_flummer_ltc (
         .data_read_from_reg(rb_data_read_from_reg),
         .reg_en         (rb_reg_en),
         .write_en       (rb_write_en),
-        .streamSt_mon   (rb_streamSt_mon)
+        .streamSt_mon   (streamSt_mon)
     );
 
     rb_ltc rb_ltc_inst(
@@ -116,7 +116,7 @@ module tt_um_flummer_ltc (
                        : (framerate == 2'b11) ? 'b1001111
                        : 'b0000000;
 
-    assign uio_out[5:4] = rb_streamSt_mon;
+    assign uio_out[5:4] = streamSt_mon;
 
     // list all unused inputs to prevent warnings
     wire _unused = &{ena, ui_in[1:0], uio_in[7:2]};
