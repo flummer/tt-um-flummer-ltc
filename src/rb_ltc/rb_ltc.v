@@ -11,7 +11,9 @@ module rb_ltc (
 	data_read_out,
 	reg_en,
 	write_en,
-	time_cfg,
+	updatetime,
+	set_time_cfg,
+	cur_time_cfg,
 	ltc_cfg
 );
 	parameter ADR_BITS = 8;
@@ -22,59 +24,69 @@ module rb_ltc (
 	output reg [7:0] data_read_out;
 	input wire reg_en;
 	input wire write_en;
-	inout wire [23:0] time_cfg;
+	output reg updatetime;
+	output reg [31:0] set_time_cfg;
+	input wire [31:0] cur_time_cfg;
 	inout wire [39:0] ltc_cfg;
 	reg [7:0] reg__ltc_cfg__misc;
-	reg [3:0] reg__time_cfg__sec_u;
-	reg [3:0] reg__time_cfg__sec_d;
-	reg [3:0] reg__time_cfg__min_u;
-	reg [3:0] reg__time_cfg__min_d;
-	reg [3:0] reg__time_cfg__hrs_u;
-	reg [3:0] reg__time_cfg__hrs_d;
-	reg [7:0] reg__ltc_cfg__user21;
-	reg [7:0] reg__ltc_cfg__user43;
-	reg [7:0] reg__ltc_cfg__user65;
-	reg [7:0] reg__ltc_cfg__user87;
+	reg [7:0] reg__ltc_cfg__user12;
+	reg [7:0] reg__ltc_cfg__user34;
+	reg [7:0] reg__ltc_cfg__user56;
+	reg [7:0] reg__ltc_cfg__user78;
+
+	reg [3:0] update_pulse;
+
 	always @(posedge clk)
 		if (resetb == 0) begin
 			reg__ltc_cfg__misc <= 8'b00000000;
-			reg__time_cfg__sec_u <= 4'b0000;
-			reg__time_cfg__sec_d <= 4'b0000;
-			reg__time_cfg__min_u <= 4'b0000;
-			reg__time_cfg__min_d <= 4'b0000;
-			reg__time_cfg__hrs_u <= 4'b0001;
-			reg__time_cfg__hrs_d <= 4'b0000;
-			reg__ltc_cfg__user21 <= 8'b00000000;
-			reg__ltc_cfg__user43 <= 8'b00000000;
-			reg__ltc_cfg__user65 <= 8'b00000000;
-			reg__ltc_cfg__user87 <= 8'b00000000;
+			reg__ltc_cfg__user12 <= 8'b00000000;
+			reg__ltc_cfg__user34 <= 8'b00000000;
+			reg__ltc_cfg__user56 <= 8'b00000000;
+			reg__ltc_cfg__user78 <= 8'b00000000;
+			updatetime <= 1'b0;
 		end
 		else
 			if (write_en)
 				case (address)
 					0:
-						reg__ltc_cfg__misc <= data_write_in[7:0];
+						reg__ltc_cfg__misc <= data_write_in[7:0]; // condif
 					1: begin
-						reg__time_cfg__sec_u <= data_write_in[3:0];
-						reg__time_cfg__sec_d <= data_write_in[7:4];
+						set_time_cfg[31:24] <= data_write_in[7:0]; // hrs
+						updatetime <= 1'b1;
+						update_pulse <= 4'b0;
 					end
 					2: begin
-						reg__time_cfg__min_u <= data_write_in[3:0];
-						reg__time_cfg__min_d <= data_write_in[7:4];
+						set_time_cfg[23:16] <= data_write_in[7:0]; // min
+						updatetime <= 1'b1;
+						update_pulse <= 4'b0;
 					end
 					3: begin
-						reg__time_cfg__hrs_u <= data_write_in[3:0];
-						reg__time_cfg__hrs_d <= data_write_in[7:4];
+						set_time_cfg[15:8] <= data_write_in[7:0]; // sec
+						updatetime <= 1'b1;
+						update_pulse <= 4'b0;
 					end
-					4:
-						reg__ltc_cfg__user21 <= data_write_in[7:0];
+					4: begin
+						set_time_cfg[7:0] <= data_write_in[7:0]; // frm
+						updatetime <= 1'b1;
+						update_pulse <= 4'b0;
+					end
 					5:
-						reg__ltc_cfg__user43 <= data_write_in[7:0];
+						reg__ltc_cfg__user12 <= data_write_in[7:0];
 					6:
-						reg__ltc_cfg__user65 <= data_write_in[7:0];
+						reg__ltc_cfg__user34 <= data_write_in[7:0];
 					7:
-						reg__ltc_cfg__user87 <= data_write_in[7:0];
+						reg__ltc_cfg__user56 <= data_write_in[7:0];
+					8:
+						reg__ltc_cfg__user78 <= data_write_in[7:0];
 				endcase
+			else begin
+				if(updatetime == 1'b1)
+					update_pulse <= update_pulse + 1; 
+				if(update_pulse[3] == 1'b1)
+					updatetime <= 1'b0;
+				if(updatetime == 1'b0)
+					set_time_cfg <= cur_time_cfg;
+			end
 	always @(posedge clk)
 		if (resetb == 0)
 			data_read_out <= 8'b00000000;
@@ -83,40 +95,30 @@ module rb_ltc (
 			case (address)
 				0:
 					data_read_out[7:0] <= reg__ltc_cfg__misc;
-				1: begin
-					data_read_out[3:0] <= reg__time_cfg__sec_u;
-					data_read_out[7:4] <= reg__time_cfg__sec_d;
-				end
-				2: begin
-					data_read_out[3:0] <= reg__time_cfg__min_u;
-					data_read_out[7:4] <= reg__time_cfg__min_d;
-				end
-				3: begin
-					data_read_out[3:0] <= reg__time_cfg__hrs_u;
-					data_read_out[7:4] <= reg__time_cfg__hrs_d;
-				end
-				4:
-					data_read_out[7:0] <= reg__ltc_cfg__user21;
+				1:
+					data_read_out[7:0] <= cur_time_cfg[31:24]; // hrs
+				2:
+					data_read_out[7:0] <= cur_time_cfg[23:16]; // min
+				3:
+					data_read_out[7:0] <= cur_time_cfg[15:8]; // sec
+				4: 
+					data_read_out[7:0] <= cur_time_cfg[7:0]; // frm
 				5:
-					data_read_out[7:0] <= reg__ltc_cfg__user43;
+					data_read_out[7:0] <= reg__ltc_cfg__user12;
 				6:
-					data_read_out[7:0] <= reg__ltc_cfg__user65;
+					data_read_out[7:0] <= reg__ltc_cfg__user34;
 				7:
-					data_read_out[7:0] <= reg__ltc_cfg__user87;
+					data_read_out[7:0] <= reg__ltc_cfg__user56;
+				8:
+					data_read_out[7:0] <= reg__ltc_cfg__user78;
 				default:
 					data_read_out <= 8'b00000000;
 			endcase
 		end
-	assign time_cfg[3-:4] = reg__time_cfg__sec_u;
-	assign time_cfg[7-:4] = reg__time_cfg__sec_d;
-	assign time_cfg[11-:4] = reg__time_cfg__min_u;
-	assign time_cfg[15-:4] = reg__time_cfg__min_u;
-	assign time_cfg[19-:4] = reg__time_cfg__hrs_u;
-	assign time_cfg[23-:4] = reg__time_cfg__hrs_d;
 
 	assign ltc_cfg[7-:8] = reg__ltc_cfg__misc;
-	assign ltc_cfg[15-:8] = reg__ltc_cfg__user21;
-	assign ltc_cfg[23-:8] = reg__ltc_cfg__user43;
-	assign ltc_cfg[31-:8] = reg__ltc_cfg__user65;
-	assign ltc_cfg[39-:8] = reg__ltc_cfg__user87;
+	assign ltc_cfg[15-:8] = reg__ltc_cfg__user12;
+	assign ltc_cfg[23-:8] = reg__ltc_cfg__user34;
+	assign ltc_cfg[31-:8] = reg__ltc_cfg__user56;
+	assign ltc_cfg[39-:8] = reg__ltc_cfg__user78;
 endmodule

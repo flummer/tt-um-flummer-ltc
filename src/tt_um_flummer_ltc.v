@@ -20,7 +20,10 @@ module tt_um_flummer_ltc (
     wire i2c_sdai;
     wire i2c_sdao;
 
-    wire [23:0] time_cfg;
+    wire settime_no;
+    wire settime;
+    wire [31:0] set_time;
+    wire [31:0] cur_time;
     wire [39:0] ltc_cfg;
 
     wire [7:0] rb_address;
@@ -61,7 +64,9 @@ module tt_um_flummer_ltc (
         .data_read_out  (rb_data_read_from_reg),
         .reg_en         (rb_reg_en),
         .write_en       (rb_write_en),
-        .time_cfg       (time_cfg),
+        .updatetime     (settime),
+	    .set_time_cfg   (set_time),
+    	.cur_time_cfg   (cur_time),
         .ltc_cfg        (ltc_cfg)
     );
 
@@ -74,20 +79,26 @@ module tt_um_flummer_ltc (
         .dropframe      (dropframe),
         .colorframe     (colorframe),
         .userbits       (userbits),
+        .updatetime     (settime),
+        .timetoset      (set_time),
         // outputs
+        .currenttime    (cur_time),
         .timecode       (timecode)
     );
+
+    // temp
+    assign settime_no = 1'b0;
 
     // Bidirectional input / output 
 
     // I2C to circuit - client and input is only input (No strech mode imp.)
-    assign i2c_scl    = uio_in[0];
-    assign uio_oe[0]  = 1'b0;
-    assign uio_out[0] = 1'b0; 
+    assign i2c_sdai   = uio_in[0];
+    assign uio_oe[0]  = (i2c_sdao == 1'b0) ? 1'b1 : 1'b0;
+    assign uio_out[0] = i2c_sdao; 
 
-    assign i2c_sdai   = uio_in[1];
-    assign uio_oe[1]  = (i2c_sdao == 1'b0) ? 1'b1 : 1'b0;
-    assign uio_out[1] = i2c_sdao; 
+    assign i2c_scl    = uio_in[1];
+    assign uio_oe[1]  = 1'b0;
+    assign uio_out[1] = 1'b0; 
 
     // LTC Timecode out
     assign uio_oe[7]  = 1'b1;
@@ -116,7 +127,8 @@ module tt_um_flummer_ltc (
                        : (framerate == 2'b11) ? 'b1001111
                        : 'b0000000;
 
-    assign uio_out[5:4] = streamSt_mon;
+    assign uio_out[4] = settime;
+    assign uio_out[5] = streamSt_mon[1];
 
     // list all unused inputs to prevent warnings
     wire _unused = &{ena, ui_in[1:0], uio_in[7:2]};

@@ -49,12 +49,12 @@ pinout:
   uo[7]: "REG_CONF_ACTIVE"
 
   # Bidirectional pins
-  uio[0]: "I2C_SCL"
-  uio[1]: "I2C_SDA"
+  uio[0]: "I2C_SDA"
+  uio[1]: "I2C_SCL"
   uio[2]: ""
   uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
+  uio[4]: "DEBUG OUTPUT"
+  uio[5]: "DEBUG OUTPUT"
   uio[6]: ""
   uio[7]: "LTC_OUT"
 
