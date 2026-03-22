@@ -20,7 +20,6 @@ module tt_um_flummer_ltc (
     wire i2c_sdai;
     wire i2c_sdao;
 
-    wire settime_no;
     wire settime;
     wire [31:0] set_time;
     wire [31:0] cur_time;
@@ -86,9 +85,6 @@ module tt_um_flummer_ltc (
         .timecode       (timecode)
     );
 
-    // temp
-    assign settime_no = 1'b0;
-
     // Bidirectional input / output 
 
     // I2C to circuit - client and input is only input (No strech mode imp.)
@@ -104,7 +100,7 @@ module tt_um_flummer_ltc (
     assign uio_oe[7]  = 1'b1;
     assign uio_out[7] = timecode;
 
-    // misc config register
+    // setup register
     assign use_reg_conf = ltc_cfg[7];
     assign framerate = (use_reg_conf == 1'b1) ? ltc_cfg[6:5] : ui_in[3:2];
     assign dropframe = (use_reg_conf == 1'b1) ? ltc_cfg[4] : ui_in[4];
@@ -115,7 +111,6 @@ module tt_um_flummer_ltc (
 
     // userbits
     assign userbits = ltc_cfg[39:8];
-    assign uio_oe[5:4] = 2'b11;
 
     // debug out
     // show decimal point lit, if using register config for framerate
@@ -128,15 +123,14 @@ module tt_um_flummer_ltc (
                        : 'b0000000;
 
     assign uio_out[4] = settime;
-    assign uio_out[5] = streamSt_mon[1];
+    assign uio_out[6:5] = streamSt_mon[1:0];
+    assign uio_oe[6:4] = 3'b111;
 
     // list all unused inputs to prevent warnings
     wire _unused = &{ena, ui_in[1:0], uio_in[7:2]};
 
     // set unused io pins to inputs
     assign uio_oe[3:2] = 2'b0;
-    assign uio_oe[6] = 1'b0;
     assign uio_out[3:2] = 2'b0;
-    assign uio_out[6] = 1'b0;
 
 endmodule
